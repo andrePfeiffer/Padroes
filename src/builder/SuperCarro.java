@@ -1,5 +1,6 @@
 package builder;
 
+/// The 'ConcreteBuilder2' class
 public class SuperCarro extends CarroBuilder {
 
     @Override
