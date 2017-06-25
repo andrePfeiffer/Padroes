@@ -1,0 +1,131 @@
+=================
+---- Builder ----
+=================
+Padrão de criação
+
+--- Definição ----
+Separa a construção de um objeto complexo da sua representação, de modo que o mesmo processo de construção possa criar diferentes representações.
+
+Um padrão quer permite você separar e reutilizar um processo específico para construir algo, como construir um objeto.
+Você só vai usar esse padrão quando o processo de construção é complexo.
+
+
+--- Diagrama ----
+
+No diagrama nós temos:
+
+Director: constroi um objeto usando a interface Builder
+Builder: especifica uma interface para criar as partes de um objeto
+ConcreteBuilder: quem constroi e junta as partes do produto implementando a interface Builder. Também cria a interface para pegar o produto.
+Product: representa o objeto complexo que é construído
+
+Director -> FabricaCarro
+Builder -> CarroBuilder
+ConcreteBuilder -> CarroPopular, SuperCarro
+Product -> Carro
+
+
+--- Código ---
+
+
+--- Vantagens ---
+- Permite variar a representação interna de um produto;
+- Encapsula o código entre construção e representação;
+- Provê controle durante o processo de construção.
+
+
+--- Desvantagens ---
+- Requer criar um concrete builder específico para cada instância diferente do produto.
+
+
+--- Builder x Abstract Factory ---
+O padrão Builder é muitas vezes comparado com o padrão Abstract Factory pois ambos podem ser utilizados para a construção de objetos complexos. 
+A principal diferença entre eles é que o Builder constrói objetos complexos passo a passo enquanto o Abstract Factory constrói famílias de objetos que podem ser simples ou complexos.
+Um composite é o que freqüentemente o builder constrói. (imagine que cada caracteristica do carro é construída a partir de um objeto próprio)
+
+
+--- Biblioteca Java ---
+Temos um exemplo do padrão Builder na biblioteca Java a partir da versão 7, o JsonObjectBuilder e o JsonArrayBuilder:
+JsonBuilderFactory factory = Json.createBuilderFactory(config);
+JsonObject value = factory.createObjectBuilder()
+    .add("firstName", "John")
+    .add("lastName", "Smith")
+    .add("age", 25)
+    .add("address", factory.createObjectBuilder()
+        .add("streetAddress", "21 2nd Street")
+        .add("city", "New York")
+        .add("state", "NY")
+        .add("postalCode", "10021"))
+    .add("phoneNumber", factory.createArrayBuilder()
+        .add(factory.createObjectBuilder()
+            .add("type", "home")
+            .add("number", "212 555-1234"))
+        .add(factory.createObjectBuilder()
+            .add("type", "fax")
+            .add("number", "646 555-4567")))
+    .build();
+
+O resultado desse código vai ser um objeto JsonObject que vai conter a seguinte estrutura:
+{
+    "firstName": "John", "lastName": "Smith", "age": 25,
+    "address" : {
+        "streetAddress": "21 2nd Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": "10021"
+    },
+    "phoneNumber": [
+        { "type": "home", "number": "212 555-1234" },
+        { "type": "fax", "number": "646 555-4567" }
+    ]
+}
+https://docs.oracle.com/javaee/7/api/javax/json/JsonObjectBuilder.html
+
+================
+---- Bridge ----
+================
+Padrão estrutural
+
+--- Definição ---
+Separa uma abstração da sua implementação, de modo que as duas possam variar independentemente.
+
+
+--- Diagrama ----
+Abstraction: define a interface da abstração. Mantém uma referência para um objeto do tipo Implementor.
+RefinedAbstraction: estende a interface definida por Abstraction
+Implementor: define a interface para as classes de implementação.
+ConcreteImplementor: implementa a interface de Implementor e define sua implementação concreta.
+
+Abstraction -> Message
+RefinedAbstraction -> SystemMessage
+Implementor -> MessageSender
+ConcreteImplementor -> TextSender, WebServiceSender
+
+
+--- Código ----
+
+
+--- Implementor x Abstraction ---
+A interface Implementor não precisa corresponder exatamente à interface de Abstraction; de fato, as duas interfaces podem ser bem diferentes. A interface de Implementor fornece somente operações primitivas e Abstraction define operações de nível mais alto baseadas nessas primitivas.
+
+--- Bridge x Adapter ---
+O padrão Adapter é orientado para fazer com que classes não-relacionadas trabalhem em conjunto. Ele é normalmente aplicado a sistemas que já foram projetados. Por outro lado, Bridge é usado em um projeto, desde o início, para permitir que abstrações e implementações possam variar independentemente.
+
+At first sight, the Bridge pattern looks a lot like the Adapter pattern in that a class is used to convert one kind of interface to another. However, the intent of the Adapter pattern is to make one or more classes' interfaces look the same as that of a particular class. The Bridge pattern is designed to separate a class's interface from its implementation so you can vary or replace the implementation without changing the client code.
+
+The Bridge pattern is an application of the old advice, "prefer composition over inheritance". It becomes handy when you must subclass different times in ways that are orthogonal with one another. Say you must implement a hierarchy of colored shapes. You wouldn't subclass Shape with Rectangle and Circle and then subclass Rectangle with RedRectangle, BlueRectangle and GreenRectangle and the same for Circle, would you? You would prefer to say that each Shape has a Color and to implement a hierarchy of colors, and that is the Bridge Pattern. Well, I wouldn't implement a "hierarchy of colors", but you get the idea...
+
+
+When:
+
+                   ----Shape---
+                  /            \
+         Rectangle              Circle
+        /         \            /      \
+BlueRectangle  RedRectangle BlueCircle RedCircle
+
+Refactor to:
+
+          ----Shape---                        Color
+         /            \                       /   \
+Rectangle(Color)   Circle(Color)           Blue   Red
