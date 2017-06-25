@@ -4,3 +4,8 @@
 bin
 .settings
 .project
+dist
+build
+nbproject
+build.xml
+manifest.mf
