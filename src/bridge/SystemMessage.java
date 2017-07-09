@@ -4,6 +4,6 @@ package bridge;
 public class SystemMessage extends Message {
     @Override
     public void Send(){
-        MessageSender.SendMessage(Subject, Body);
+        messageSender.SendMessage(subject, body);
     }
 }

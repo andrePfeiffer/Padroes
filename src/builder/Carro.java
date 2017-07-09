@@ -3,34 +3,34 @@ package builder;
 /// Classe "Product"
 public class Carro {
     
-    private int VelocidadeMaxima;
-    private int Potencia;
-    private String DestaqueCarro;
+    private int velocidadeMaxima;
+    private int potencia;
+    private String destaqueCarro;
     
     public Carro(){ }
 
     public int getVelocidadeMaxima() {
-        return VelocidadeMaxima;
+        return velocidadeMaxima;
     }
 
-    public void setVelocidadeMaxima(int VelocidadeMaxima) {
-        this.VelocidadeMaxima = VelocidadeMaxima;
+    public void setVelocidadeMaxima(int velocidadeMaxima) {
+        this.velocidadeMaxima = velocidadeMaxima;
     }
 
     public int getPotencia() {
-        return Potencia;
+        return potencia;
     }
 
-    public void setPotencia(int Potencia) {
-        this.Potencia = Potencia;
+    public void setPotencia(int potencia) {
+        this.potencia = potencia;
     }
 
     public String getDestaqueCarro() {
-        return DestaqueCarro;
+        return destaqueCarro;
     }
 
-    public void setDestaqueCarro(String DestaqueCarro) {
-        this.DestaqueCarro = DestaqueCarro;
+    public void setDestaqueCarro(String destaqueCarro) {
+        this.destaqueCarro = destaqueCarro;
     }
     
 }

@@ -2,8 +2,8 @@ package bridge;
 
 /// The 'Abstraction' class
 public abstract class Message {
-    protected MessageSender MessageSender;
-    protected String Subject;
-    protected String Body;
+    protected MessageSender messageSender;
+    protected String subject;
+    protected String body;
     public abstract void Send();
 }
